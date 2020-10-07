@@ -6,7 +6,7 @@ from app.api import predict, viz
 
 app = FastAPI(
     title='Labs27-Bridges-TeamA',
-    description='Replace this placeholder text',
+    description='Redeployment test',
     version='0.1',
     docs_url='/',
 )
