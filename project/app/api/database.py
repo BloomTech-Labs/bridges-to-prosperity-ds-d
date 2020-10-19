@@ -50,6 +50,18 @@ class PostgreSQL:
         result = cursor.fetchall()
         return result
 
+    def fetch_all_records(self):
+        cursor = self.connection.cursor()
+        query = f"""SELECT * FROM public."Bridges" """
+        cursor.execute(query)
+        result = cursor.fetchall()
+        columns = ['ID', 'country', 'province', 'district', 'district_id', 'sector', 'sector_id', 'cell', 'cell_id', 'village', 'village_id', 'name', 'project_code', 'type', 'stage', 'sub_stage', 'individuals_directly_served', 'span', 'lat', 'long', 'community_served_1', 'community_served_1_id',
+                   'community_served_2', 'community_served_2_id', 'community_served_3', 'community_served_3_id', 'community_served_4', 'community_served_4_id', 'community_served_5', 'community_served_5_id', 'form', 'case_safe_id', 'opportunity_id', 'inc_income', 'inc_income_rwf', 'inc_income_usd', 'bridge_image']
+        df = pd.DataFrame(result, columns=columns)
+        df_json = df.to_json(orient='records')
+        parsed = json.loads(df_json)
+        return parsed
+
     def fetch_query_given_project(self, project_code: int):
         cursor = self.connection.cursor()
         query = f"""SELECT * FROM public."Bridges" where project_code={project_code} """
@@ -84,7 +96,7 @@ class Item(BaseModel):
     """Use this data model to parse the request body JSON."""
 
     # x1: float = Field(..., example=3.14)
-    project_code: int = Field(..., example=1014106)
+    # project_code: int = Field(..., example=1014106)
     # x3: str = Field(..., example='banjo')
 
     def to_df(self):
@@ -119,4 +131,57 @@ async def get_record(item: Item):
     project_code = int(item_str[item_str.find('=')+1:])
     pg = PostgreSQL()
     return_json = pg.fetch_query_given_project(project_code)
+    return return_json
+
+
+@router.get('/database')
+async def get_all_record():
+    """
+    Returns all records from the database
+
+    # Response
+    - ID: integer, sequential
+    - country: text
+    - province: text
+    - district: text
+    - district_id: number
+    - sector: text
+    - sector_id: number
+    - cell: text
+    - cell_id: integer
+    - village: text
+    - name: text
+    - project_code: integer
+    - type: text
+    - stage: text
+    - sub_stage: text
+    - individuals_directly_served: integer
+    - span: integer
+    - lat: double precision
+    - long: double precision
+    - community_served_1: text
+    - community_served_1_id: integer
+    - community_served_2: text
+    - community_served_2_id: integer
+    - community_served_3: text
+    - community_served_3_id: integer
+    - community_served_4: text
+    - community_served_4_id: integer
+    - community_served_5: text
+    - community_served_5_id: integer
+    - form: text
+    - case_safe_id: text
+    - opportunity_id: text
+    - inc_income: double precision
+    - inc_income_rwf: double precision
+    - inc_income_usd: double precision
+    - bridge_image: text
+
+
+    """
+    # X_new = item.to_df()
+    # item_str = item.to_string()
+    # project_code = int(item_str[item_str.find('=')+1:])
+    pg = PostgreSQL()
+    return_json = pg.fetch_all_records()
     return return_json
