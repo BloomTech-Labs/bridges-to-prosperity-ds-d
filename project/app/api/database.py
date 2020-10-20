@@ -52,11 +52,17 @@ class PostgreSQL:
 
     def fetch_all_records(self):
         cursor = self.connection.cursor()
-        query = f"""SELECT * FROM public."Bridges" """
+        # 'ID','country','province','district','district_id','sector','sector_id','cell','cell_id','village','village_id','name','project_code','type','stage','sub_stage','individuals_directly_served','span','lat','long','form','case_safe_id','opportunity_id','inc_income','inc_income_rwf','inc_income_usd','bridge_image']
+        query = f"""SELECT "ID", country, province, district,district_id,sector,sector_id,cell,cell_id,village,village_id,name,project_code,type,stage,sub_stage,individuals_directly_served,span,lat,long,form,case_safe_id,opportunity_id,inc_income,inc_income_rwf,inc_income_usd,bridge_image FROM public."Bridges"  """
+        # query = f"""SELECT "ID", country FROM public."Bridges" limit 5 """
+        # query = f"""SELECT 'ID','country' FROM public."Bridges" """
+        # query = f"""SELECT * FROM public."Bridges" """
+        # query = f"""SELECT "ID","country" FROM public."Bridges" limit top 5"""
         cursor.execute(query)
         result = cursor.fetchall()
-        columns = ['ID', 'country', 'province', 'district', 'district_id', 'sector', 'sector_id', 'cell', 'cell_id', 'village', 'village_id', 'name', 'project_code', 'type', 'stage', 'sub_stage', 'individuals_directly_served', 'span', 'lat', 'long', 'community_served_1', 'community_served_1_id',
-                   'community_served_2', 'community_served_2_id', 'community_served_3', 'community_served_3_id', 'community_served_4', 'community_served_4_id', 'community_served_5', 'community_served_5_id', 'form', 'case_safe_id', 'opportunity_id', 'inc_income', 'inc_income_rwf', 'inc_income_usd', 'bridge_image']
+        columns = ['ID', 'country', 'province', 'district', 'district_id', 'sector', 'sector_id', 'cell', 'cell_id', 'village', 'village_id', 'name', 'project_code', 'type', 'stage',
+                   'sub_stage', 'individuals_directly_served', 'span', 'lat', 'long', 'form', 'case_safe_id', 'opportunity_id', 'inc_income', 'inc_income_rwf', 'inc_income_usd', 'bridge_image']
+        # columns = ['ID', 'country']
         df = pd.DataFrame(result, columns=columns)
         df_json = df.to_json(orient='records')
         parsed = json.loads(df_json)
