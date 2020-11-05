@@ -11,3 +11,5 @@ __pycache__
 !.elasticbeanstalk/*.global.yml
 
 database_test.py
+
+.idea
