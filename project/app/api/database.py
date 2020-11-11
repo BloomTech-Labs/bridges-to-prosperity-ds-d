@@ -23,10 +23,6 @@ class PostgreSQL:
     DB_HOST = os.getenv("DB_HOST")
     DB_PORT = os.getenv("DB_PORT")
 
-    # connection = psycopg2.connect(dbname='bridges_to_prosperity_oct2018', user="postgres_labs28",
-    #                               password='bridges28',
-    #                               host="bridges-prosperity-labs28.cizmj9mbwva2.us-east-1.rds.amazonaws.com",
-    #                               port=5432)
     connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD,
                                    host=DB_HOST, port='5432')
 
