@@ -12,6 +12,19 @@ import random
 from fastapi import APIRouter
 import pandas as pd
 from pydantic import BaseModel, Field, validator
+import os
+import psycopg2
+from psycopg2.extensions import register_adapter, AsIs
+import pandas as pd
+import json
+from dotenv import load_dotenv
+
+import logging
+import random
+
+from fastapi import APIRouter
+import pandas as pd
+from pydantic import BaseModel, Field, validator
 
 log = logging.getLogger(__name__)
 router = APIRouter()
@@ -54,10 +67,6 @@ class PostgreSQL:
         cursor = self.connection.cursor()
         # 'ID','country','province','district','district_id','sector','sector_id','cell','cell_id','village','village_id','name','project_code','type','stage','sub_stage','individuals_directly_served','span','lat','long','form','case_safe_id','opportunity_id','inc_income','inc_income_rwf','inc_income_usd','bridge_image']
         query = f"""SELECT "ID", country, province, district,district_id,sector,sector_id,cell,cell_id,village,village_id,name,project_code,type,stage,sub_stage,individuals_directly_served,span,lat,long,form,case_safe_id,opportunity_id,inc_income,inc_income_rwf,inc_income_usd,bridge_image FROM public."Bridges"  """
-        # query = f"""SELECT "ID", country FROM public."Bridges" limit 5 """
-        # query = f"""SELECT 'ID','country' FROM public."Bridges" """
-        # query = f"""SELECT * FROM public."Bridges" """
-        # query = f"""SELECT "ID","country" FROM public."Bridges" limit top 5"""
         cursor.execute(query)
         result = cursor.fetchall()
         columns = ['ID', 'country', 'province', 'district', 'district_id', 'sector', 'sector_id', 'cell', 'cell_id', 'village', 'village_id', 'name', 'project_code', 'type', 'stage',
@@ -101,20 +110,10 @@ class PostgreSQL:
 class Item(BaseModel):
     """Use this data model to parse the request body JSON."""
 
-    # x1: float = Field(..., example=3.14)
-    # project_code: int = Field(..., example=1014106)
-    # x3: str = Field(..., example='banjo')
-
     def to_df(self):
         """Convert pydantic object to pandas dataframe with 1 row."""
         return pd.DataFrame([dict(self)])
 
-    # TODO: after MVP
-    # @validator('x1')
-    # def x1_must_be_positive(cls, value):
-    #     """Validate that x1 is a positive number."""
-    #     assert value > 0, f'x1 == {value}, must be > 0'
-    #     return value
 
 
 @router.post('/database')
