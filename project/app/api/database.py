@@ -16,18 +16,15 @@ load_dotenv()
 
 class PostgreSQL:
     def __init__(self):
-        self.DB_NAME = os.getenv("DB_NAME")
-        self.DB_USER = os.getenv("DB_USER")
-        self.DB_PASSWORD = os.getenv("DB_PASSWORD")
-        self.DB_HOST = os.getenv("DB_HOST")
-        self.DB_PORT = os.getenv("DB_PORT")
+        "Add custom fields here"
+    DB_NAME = os.getenv("DB_NAME")
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_HOST = os.getenv("DB_HOST")
+    DB_PORT = os.getenv("DB_PORT")
 
-    connection = psycopg2.connect(dbname='bridges_to_prosperity_oct2018', user="postgres_labs28",
-                                  password='bridges28',
-                                  host="bridges-prosperity-labs28.cizmj9mbwva2.us-east-1.rds.amazonaws.com",
-                                  port=5432)
-    # psycopg2.connect(dbname=self.DB_NAME, user=self.DB_USER, password=self.DB_PASSWORD,
-    #                                host=self.DB_HOST, port='5432')
+    connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD,
+                                   host=DB_HOST, port='5432')
 
     # methods can reference this variable
     columns = ['Bridge_Name',
@@ -220,13 +217,13 @@ class Item1(BaseModel):
     input1: str = Field(..., example='output1')
     output2: str = Field(..., example='output2')
 
-    # @validator('Title')
+    # @validator('input1')
     # def title_must_be_a_string(cls, value):
     #     """Validate that Title is a string."""
     #     assert type(value) == str, f'Title == {value}, must be a string'
     #     return value
     #
-    # @validator('Post')
+    # @validator('output1')
     # def post_must_be_a_string(cls, value):
     #     """Validate that post is a string."""
     #     assert type(value) == str, f'Title == {value}, must be a string'
@@ -236,7 +233,7 @@ class Item1(BaseModel):
 @router.post('/predict')
 async def predict(item: Item1):
     """
-    Predicts what reddit to post to 🔮
+    Returns Prediction 🔮
 
     ### Request Body
 
