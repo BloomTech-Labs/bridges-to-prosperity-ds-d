@@ -5,15 +5,15 @@ import uvicorn
 from app.api import predict, viz, database
 
 app = FastAPI(
-    title='Labs27-Bridges-TeamA',
-    description='Redeployment test',
+    title='Labs28-Bridges-DS-D-2020',
+    description='# Version1-Deployment',
     version='0.1',
     docs_url='/',
 )
-
+app.include_router(database.router)
 app.include_router(predict.router)
 app.include_router(viz.router)
-app.include_router(database.router)
+
 
 app.add_middleware(
     CORSMiddleware,
