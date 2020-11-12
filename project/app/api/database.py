@@ -27,7 +27,7 @@ class PostgreSQL:
     connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD,
                                   host=DB_HOST, port='5432')
 
-    # methods can reference this variable
+    # Methods can reference this variable
     columns = ['Bridge_Name',
                'Project_Code',
                'Needs_Assessment',
