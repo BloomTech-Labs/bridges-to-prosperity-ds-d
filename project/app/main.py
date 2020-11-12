@@ -6,7 +6,7 @@ from app.api import predict, viz, database
 
 app = FastAPI(
     title='Labs28-Bridges-DS-D-2020',
-    description='# Version1-Deployment',
+    description='# Version2-Deployment',
     version='0.1',
     docs_url='/',
 )

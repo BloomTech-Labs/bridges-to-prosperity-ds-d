@@ -28,49 +28,50 @@ class PostgreSQL:
                                   host=DB_HOST, port='5432')
 
     # Methods can reference this variable
-    columns = ['Bridge_Name',
-               'Project_Code',
-               'Needs_Assessment',
-               'Bridge_Opportunity_Level1_Government',
-               'Bridge_Opportunity_Level2_Government',
-               'Stage',
-               'GPS_Latitude',
-               'GPS_Longitude',
-               'Bridge_Type',
-               'Bridge_Span_m',
-               'Individuals_Directly_Served',
-               'year_2013_2014_Data',
-               'Form_Name',
-               'Created_By',
-               'Bridge_Location_GPS_Latitude',
-               'Proposed_Bridge_Location_GPS_Longitude',
-               'Current_crossing_method',
-               'Nearest_all_weather_crossing_point',
-               'Days_per_year_river_flooded',
-               'Flood_duration_rainy_season',
-               'Market_access_blocked_by_river',
-               'Education_access_blocked_by_river',
-               'Health_access_blocked_by_river',
-               'Other_access_blocked_by_river',
-               'Primary_occupations',
-               'Primary_crops_grown',
-               'River_crossing_deaths_last_3_years',
-               'River_crossing_injuries_last_3_years',
-               'Incident_descriptions',
-               'Notes_social_information',
-               'Cell_service_quality',
-               'Accessibility',
-               'Name_nearest_city',
-               'Name_nearest_paved_or_sealed_road',
-               'Bridge_classification',
-               'Flag_for_Rejection',
-               'Rejection_Reason',
-               'Bridge_Types',
-               'Estimated_span_m',
-               'Height_differential_between_banks',
-               'General_Project_Photos',
-               'CaseSafeID',
-               'Senior_Engineering_Review_Conducted']
+    columns = ['bridge_name',
+               'bridge_opportunity_project_code',
+               'bridge_opportunity_needs_assessment',
+               'bridge_opportunity_level1_government',
+               'bridge_opportunity_level2_government',
+               'bridge_opportunity_stage',
+               'bridge_opportunity_gps_latitude',
+               'bridge_opportunity_gps_longitude',
+               'bridge_opportunity_bridge_type',
+               'bridge_opportunity_span_m',
+               'bridge_opportunity_individuals_directly_served',
+               'bridge_opportunity_comments',
+               'form_form_name',
+               'form_created_by',
+               'proposed_bridge_location_gps_latitude',
+               'proposed_bridge_location_gps_longitude',
+               'current_crossing_method',
+               'nearest_all_weather_crossing_point',
+               'days_per_year_river_is_flooded',
+               'flood_duration_during_rainy_season',
+               'market_access_blocked_by_river',
+               'education_access_blocked_by_river',
+               'health_access_blocked_by_river',
+               'other_access_blocked_by_river',
+               'primary_occupations',
+               'primary_crops_grown',
+               'river_crossing_deaths_in_last_3_years',
+               'river_crossing_injuries_in_last_3_years',
+               'incident_descriptions',
+               'notes_on_social_information',
+               'cell_service_quality',
+               'four_wd _accessibility',
+               'name_of_nearest_city',
+               'name_of_nearest_paved_or_sealed_road',
+               'bridge_classification',
+               'flag_for_rejection',
+               'rejection_reason',
+               'bridge_type',
+               'estimated_span_m',
+               'height_differential_between_banks',
+               'bridge_opportunity_general_project_photos',
+               'bridge_opportunity_casesafeid',
+               'senior_engineering_review_conducted',
+               'country']
 
     def conn_curs(self):
         """
@@ -108,9 +109,11 @@ class PostgreSQL:
         # Establishes connection and cursor
         conn = self.connection
         cursor = self.connection.cursor()
-        query = """ SELECT * from public."B2P_oct_2018";"""
+        query = """SELECT * from public."B2P_Merged_Final";"""
         cursor.execute(query)
         result = cursor.fetchall()
+        # At the moment this code is unnecessary, closing connections adds a bug, but in the future it mayb
+        # Be use full to close these connections
         # cursor.close()
         # conn.close()
         df = pd.DataFrame(result, columns=['index'] + self.columns)
@@ -123,9 +126,11 @@ class PostgreSQL:
         # Establishes connection and cursor
         conn = self.connection
         cursor = self.connection.cursor()
-        query = f"""SELECT * FROM public."B2P_oct_2018" where "Project_Code" = '{project_code}';"""
+        query = f"""SELECT * FROM public."B2P_Merged_Final" where "bridge_opportunity_project_code" = '{project_code}';"""
         cursor.execute(query)
         result = cursor.fetchall()
+        # At the moment this code is unecessary, closing connections adds a bug, but in the future it mayb
+        # Be use full to close these connections
         # cursor.close()
         # conn.close()
         df = pd.DataFrame(result, columns=['index'] + self.columns)  #
@@ -138,7 +143,7 @@ class PostgreSQL:
 class Item(BaseModel):
     """Use this data model to parse the request body JSON."""
 
-    Project_Code: str = Field(..., example='1007374')
+    project_code: str = Field(..., example='1007374')
 
     def to_df(self):
         """Convert pydantic object to pandas dataframe with 1 row."""
@@ -161,7 +166,7 @@ async def get_record(item: Item):
     """
 
     PSQL = PostgreSQL()
-    json_output = PSQL.fetch_query_given_project(item.Project_Code)
+    json_output = PSQL.fetch_query_given_project(item.project_code)
     return json_output
 
 
@@ -170,49 +175,24 @@ async def get_all_record():
     """
 
     #Response All Data/Records in JSON FORMAT
-    - 'Bridge_Name'
-    - 'Project_Code',
-    - 'Needs_Assessment',
-    - 'Bridge_Opportunity_Level1_Government',
-    - 'Bridge_Opportunity_Level2_Government',
-    - 'Stage',
-    - 'GPS_Latitude',
-    - 'GPS_Longitude',
-    - 'Bridge_Type',
-    - 'Bridge_Span_m',
-    - 'Individuals_Directly_Served',
-    - 'year_2013_2014_Data',
-    - 'Form_Name',
-    - 'Created_By',
-    - 'Bridge_Location_GPS_Latitude',
-    - 'Proposed_Bridge_Location_GPS_Longitude',
-    - 'Current_crossing_method',
-    - 'Nearest_all_weather_crossing_point',
-    - 'Days_per_year_river_flooded',
-    - 'Flood_duration_rainy_season',
-    - 'Market_access_blocked_by_river',
-    - 'Education_access_blocked_by_river',
-    - 'Health_access_blocked_by_river',
-    - 'Other_access_blocked_by_river',
-    - 'Primary_occupations',
-    - 'Primary_crops_grown',
-    - 'River_crossing_deaths_last_3_years',
-    - 'River_crossing_injuries_last_3_years',
-    - 'Incident_descriptions',
-    - 'Notes_social_information',
-    - 'Cell_service_quality',
-    - 'Accessibility',
-    - 'Name_nearest_city',
-    - 'Name_nearest_paved_or_sealed_road',
-    - 'Bridge_classification',
-    - 'Flag_for_Rejection',
-    - 'Rejection_Reason',
-    - 'Bridge_Types',
-    - 'Estimated_span_m',
-    - 'Height_differential_between_banks',
-    - 'General_Project_Photos',
-    - 'CaseSafeID',
-    - 'Senior_Engineering_Review_Conducted'
+    #Columns are now formated in lowercase, as shown below
+    - 'bridge_name'
+    - 'bridge_opportunity_project_code'
+    - 'bridge_opportunity_needs_assessment'
+    - 'bridge_opportunity_level1_government'
+    - 'bridge_opportunity_level2_government'
+    - 'bridge_opportunity_stage',
+    - 'bridge_opportunity_gps_latitude'
+    - 'bridge_opportunity_gps_longitude'
+    - 'bridge_opportunity_bridge_type'
+    - 'bridge_opportunity_span_m'
+    - 'bridge_opportunity_individuals_directly_served'
+    - 'bridge_opportunity_comments'
+    - 'form_form_name'
+    - 'form_created_by'
+    - 'proposed_bridge_location_gps_latitude'
+    - 'proposed_bridge_location_gps_longitude'
+    - ...
 
 
     """
@@ -222,7 +202,7 @@ async def get_all_record():
 
 
 class Item1(BaseModel):
-    """Use this data model to parse the request body JSON."""
+    """Use this data model to parse the request body JSON.."""
 
     input1: str = Field(..., example='output1')
     output2: str = Field(..., example='output2')
