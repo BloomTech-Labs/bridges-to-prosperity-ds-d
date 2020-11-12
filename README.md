@@ -42,7 +42,6 @@
    df = pd.read("file_location")
 ```
 - Upload DataFrame to SQL Table
-- Upload SW
 ```python   
    table_name = 'table_name'
    df.to_sql(table_name, con)
