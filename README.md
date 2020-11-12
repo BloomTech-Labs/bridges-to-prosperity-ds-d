@@ -42,12 +42,11 @@
    df = pd.read("file_location")
 ```
 - Upload DataFrame to SQL Table
-- Upload SW
 ```python   
    table_name = 'table_name'
    df.to_sql(table_name, con)
 ```
-- Test SQL Table that is connected to DataBase
+- Test SQL Table that is connected to DataBase.
 ## Test Queries to Table B2P_oct_2018
 
 ```python
@@ -58,6 +57,7 @@
     cursor.execute(query)
     result = cursor.fetchall()
     conn.close
+
 
 ```
 
