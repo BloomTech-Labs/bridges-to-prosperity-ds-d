@@ -169,8 +169,7 @@ async def get_record(item: Item):
     json_output = PSQL.fetch_query_given_project(item.project_code)
     return json_output
 
-
-@router.post('/all_data')
+@router.get('/all_data')
 async def get_all_record():
     """
 
