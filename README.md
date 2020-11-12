@@ -38,7 +38,7 @@
 # How to upload Data Frame as SQL Table to DataBase
 - Convert CSV/Excel into DataFrame format : 
 ```python 
-   #Verify your table doesn't already doesn't exist
+   #Make sure your file location does actually coresspond to a  working link
    df = pd.read("file_location")
 ```
 - Upload DataFrame to SQL Table
@@ -47,6 +47,12 @@
    df.to_sql(table_name, con)
 ```
 - Test SQL Table that is connected to DataBase.
+- Check out Bridges_2_Prosperity_Final_Merged_DataFrameToPostgresSQL.ipynb notebook to see an example.
+```
+
+
+
+```
 ## Test Queries to Table B2P_oct_2018
 
 ```python
