@@ -202,7 +202,7 @@ async def get_all_record():
 
 
 class Item1(BaseModel):
-    """Use this data model to parse the request body JSON."""
+    """Use this data model to parse the request body JSON.."""
 
     input1: str = Field(..., example='output1')
     output2: str = Field(..., example='output2')
