@@ -26,7 +26,7 @@ class PostgreSQL:
         DB_PORT = os.getenv("DB_PORT")
 
         self.connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD,
-                                  host=DB_HOST, port=DB_PORT)
+                                           host=DB_HOST, port=DB_PORT)
 
     # methods can reference this variable
     columns = ['bridge_name',
@@ -74,7 +74,6 @@ class PostgreSQL:
                'senior_engineering_review_conducted',
                'country']
 
-
     def conn_curs(self):
         """
         makes a connection to the database
@@ -83,7 +82,6 @@ class PostgreSQL:
         connection = self.connection
         cursor = self.connection.cursor()
         return connection, cursor
-
 
     # def close(self):
     #     self.connection.close()
@@ -98,7 +96,7 @@ class PostgreSQL:
         conn.close()
         return result
 
-    def fetch_all_records(self, tablename: str='b2p_lab28d_sk_tab'):
+    def fetch_all_records(self, tablename: str = 'b2p_lab28d_sk_tab'):
         """This is query returns all data/records in json format"""
         # Establishes connection and cursor
         conn, cursor = self.conn_curs()
@@ -116,7 +114,7 @@ class PostgreSQL:
     def fetch_query_given_project(self, project_code: str, tablename: str = 'b2p_lab28d_sk_tab'):
         # Establishes connection and cursor
         conn, cursor = self.conn_curs()
-        query = f"""SELECT * FROM {tablename} WHERE bridge_opportunity_project_code = '{project_code}';""" 
+        query = f"""SELECT * FROM {tablename} WHERE bridge_opportunity_project_code = '{project_code}';"""
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
@@ -127,12 +125,12 @@ class PostgreSQL:
         parsed = json.loads(df_json)
         return parsed
 
+
 class Item(BaseModel):
     """Use this data model to parse the request body JSON."""
 
     project_code: str = Field(..., example='1007374')
     tablename: str = Field(..., example='b2p_lab28d_sk_tab')
-
 
 
 @router.post('/data_by_bridge_code')
@@ -153,6 +151,7 @@ async def get_record(item: Item):
     pg = PostgreSQL()
     json_output = pg.fetch_query_given_project(item.project_code, item.tablename)
     return json_output
+
 
 @router.get('/all_data')
 async def get_all_record():
@@ -210,11 +209,36 @@ async def predict(item: Item1):
     Returns Prediction 🔮
 
     ### Request Body
-
-   - 'Bridge_Name':str
-   - 'Project_Code',:str
-   - 'Needs_Assessment': str
+    ###
+    - Suspended_Bridge : Can Be 1 or 0, 1 represents it is of that type 0 that isn't
+    - Suspension_Bridge: Can Be 1 or 0, 1 represents it is of that type 0 that isn't,
+    - Other_Bridge_type: Can Be 1 or 0, 1 represents it is of that type 0 that isn't
+    - Bridge_type_Concrete:Can Be 1 or 0, 1 represents it is of that type 0 that isn't
+    - Bridge_span_m: numerical input
+    - days_per_year_river_is_flooded : numerical input
+    - height_differential_between_banks : numerical input
     """
     prediction = item.input1 + '+' + item.output2
 
+    def predictor(Suspended_Bridge, Suspension_Bridge,
+                Other_Bridge_type: str, Bridge_type_Concrete,
+                Bridge_span_m,
+                days_per_year_river_is_flooded, height_differential_between_banks):
+        """Function takes 7 Inputs and predicts wheather an engineer is likeley to reject/approve build to be build"""
+        df = pd.DataFrame(
+            columns=['Suspended_Bridge', 'Suspension_Bridge', 'Other_Bridge_type', 'Bridge_type_Concrete',
+                     'Bridge_span_m',
+                     'days_per_year_river_is_flooded', 'height_differential_between_banks'],
+            data=[[Suspended_Bridge, Suspension_Bridge, Other_Bridge_type, Bridge_type_Concrete, Bridge_span_m,
+                   days_per_year_river_is_flooded, height_differential_between_banks]])
+        y_pred_probab = RFC_model.predict_proba(df)
+        y_pred = RFC_model.predict(df)
+        # print(f' Probabillity that person checked-out {y_pred_probab0}%')
+        if int(y_pred[0]) == 1:
+            return {
+                f'Its predicted with a {list(y_pred_probab[0])[1]} that the engineer will Approve Bridge - {y_pred[0]}'}
+        else:
+            return {
+                f'Its predicted with a {list(y_pred_probab[0])[0]} that the engineer will Reject Bridge - {y_pred[0]}'}
+    return predictor()
     return {"prediction": prediction}
