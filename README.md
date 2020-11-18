@@ -1,5 +1,5 @@
 # Welcome to our Repo! 
-[![Welcome Video](bridges-to-prosperity-ds-d/notebooks/Screen Shot 2020-11-18 at 2.41.32 PM.png)](https://youtu.be/1qVVODfPtto)
+[![Welcome Video](https://imgur.com/7gaai5K)](https://youtu.be/1qVVODfPtto)
 
 # Links to Deployments
 <p>&nbsp;</p>
