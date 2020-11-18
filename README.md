@@ -1,5 +1,5 @@
 # Welcome to our Repo! 
-[![Welcome Video](https://imgur.com/7gaai5K)](https://youtu.be/1qVVODfPtto)
+[![Welcome Video](https://imgur.com/7gaai5K.png)](https://youtu.be/1qVVODfPtto)
 
 # Links to Deployments
 <p>&nbsp;</p>
