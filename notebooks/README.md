@@ -34,8 +34,8 @@
 ## Model 
 The model being used is a semi-supervised learning model 
  - The [latest deployment](https://lab28dsk.bridgestoprosperity.dev/) is based on this [google colabs notebook](https://colab.research.google.com/github/Lambda-School-Labs/bridges-to-prosperity-ds-d/blob/main/notebooks/b2p_d.ipynb)
- - The [previous deployment](https://b2pmergefinal.bridgestoprosperity.dev/) 
-    - main differences is new predict endpoint, Column name updates: engineering stage, and engineer review update/removed 
+ - main differences is new predict endpoint, Column name updates: engineer review update to good_site column
+ - The [previous deployment](https://b2pmergefinal.bridgestoprosperity.dev/)  
 - The models probabilities mean:
 - Some bugs the model is currently facing are: 
 
