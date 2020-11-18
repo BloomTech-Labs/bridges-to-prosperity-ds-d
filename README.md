@@ -1,3 +1,6 @@
+# Welcome to our Repo! 
+[![Welcome Video](https://youtu.be/1qVVODfPtto.jpg)](https://youtu.be/1qVVODfPtto)
+
 # Links to Deployments
 <p>&nbsp;</p>
 
