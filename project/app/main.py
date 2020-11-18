@@ -11,11 +11,11 @@ app = FastAPI(
     version='0.2',
     docs_url='/',
 )
-# app.include_router(database.router)
+
 app.include_router(dbpgsql.router)
 
 app.include_router(predict.router)
-app.include_router(viz.router)
+# app.include_router(viz.router)
 
 
 app.add_middleware(
