@@ -6,6 +6,10 @@
 
 [Docs](https://docs.labs.lambdaschool.com/data-science/)
 
+[latest deployment](https://lab28dsk.bridgestoprosperity.dev/)
+
+[previous deployment](https://b2pmergefinal.bridgestoprosperity.dev/)
+
 [Deployed API](https://d-ds.bridgestoprosperity.dev/) 
 
 [Deployed API#2](https://d-ds-labs28.bridgestoprosperity.dev )
