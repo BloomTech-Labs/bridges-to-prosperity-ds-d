@@ -6,9 +6,9 @@
 
 [Docs](https://docs.labs.lambdaschool.com/data-science/)
 
-[latest deployment](https://lab28dsk.bridgestoprosperity.dev/)
+[Latest deployment](https://lab28dsk.bridgestoprosperity.dev/)
 
-[previous deployment](https://b2pmergefinal.bridgestoprosperity.dev/)
+[Previous deployment](https://b2pmergefinal.bridgestoprosperity.dev/)
 
 [Deployed API](https://d-ds.bridgestoprosperity.dev/) 
 
@@ -70,8 +70,6 @@
     cursor.execute(query)
     result = cursor.fetchall()
     conn.close
-
-
 ```
 
 # How to Run App Locally
