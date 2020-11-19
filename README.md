@@ -16,7 +16,7 @@
 
 # Architeture
 
-[(https://github.com/Lambda-School-Labs/bridges-to-prosperity-ds-d/blob/main/assets/Flowchart.png)]
+[!(https://github.com/Lambda-School-Labs/bridges-to-prosperity-ds-d/blob/main/assets/Flowchart.png)]
 
 # How to Create DataBase Hosted in AWS 
 - Log In w/ Credentials to AWS
