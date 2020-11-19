@@ -55,11 +55,7 @@
 ```
 - Test SQL Table that is connected to DataBase.
 - Check out Bridges_2_Prosperity_Final_Merged_DataFrameToPostgresSQL.ipynb notebook to see an example.
-```
 
-
-
-```
 ## Test Queries to Table B2P_oct_2018
 
 ```python
